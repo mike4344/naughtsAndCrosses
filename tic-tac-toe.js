@@ -1,4 +1,6 @@
 window.addEventListener('DOMContentLoaded', event => {
+    let savedBoard = localStorage.getItem('boardSave');
+    let checkBoard = JSON.parse(savedBoard)
     let div = document.getElementById('game');
     let newGame = document.querySelector('.actions');
     let buttonNewGame = document.getElementById('new-game')
@@ -8,6 +10,18 @@ window.addEventListener('DOMContentLoaded', event => {
     let currentPlayer = []
     let board = [0,0,0,0,0,0,0,0,0]
     let gameStatus = document.getElementById('game-status')
+    if (checkBoard !== null){
+        board = checkBoard
+        for (let i = 0; i < 9; i++){
+            let ele = document.getElementById(`square-${i}`)
+            if(checkBoard[i] === 'x'){
+                console.log(ele)
+               ele.innerHTML = '<img src = player-x.svg />'
+            } else if(checkBoard[i] === 'o'){
+                ele.innerHTML = '<img src = player-o.svg />'
+            }
+        }
+    }
     let checkWin = () =>{
 
         if (board[0] === board[1] && board[1] ===board[2] && board[2] !== 0){
@@ -68,6 +82,8 @@ window.addEventListener('DOMContentLoaded', event => {
             buttonNewGame.disabled = false
         }
         board[currentSquare] = currentPlayer[currentPlayer.length -1];
+        let boardSave = JSON.stringify(board);
+        localStorage.setItem('boardSave', boardSave)
         checkWin();
     });
     newGame.addEventListener('click', event => {
@@ -76,6 +92,7 @@ window.addEventListener('DOMContentLoaded', event => {
             gameStatus.innerText = '';
             buttonNewGame.disabled = true;
             buttonGiveUp.disabled = false;
+            localStorage.removeItem('boardSave')
             for (let i = 0; i < 9; i ++) {
                 let ele = document.getElementById(`square-${i}`)
                 ele.innerHTML = ''
