@@ -6,6 +6,8 @@ window.addEventListener('DOMContentLoaded', event => {
     let buttonNewGame = document.getElementById('new-game')
     let buttonGiveUp = document.getElementById('give-up');
 
+
+    let counter2 = 0;
     let count = 0;
     let currentPlayer = []
     let board = [0,0,0,0,0,0,0,0,0]
@@ -22,6 +24,17 @@ window.addEventListener('DOMContentLoaded', event => {
             }
         }
     }
+
+    const computerTurn = () => Math.round(Math.random());
+    const randomNumber = board => Math.floor(Math.random()*board.length)
+    if( computerTurn() === 0) {
+        if( counter2 %2 === 0) {
+            let currentRandom = randomNumber();
+            board[currentRandom] = 'x';
+            document.getElementById(`square-${currentRandom}`)
+        }
+    }
+
     let checkWin = () =>{
 
         if (board[0] === board[1] && board[1] ===board[2] && board[2] !== 0){
@@ -65,6 +78,7 @@ window.addEventListener('DOMContentLoaded', event => {
         let currentSquare = Number(id[id.length-1])
         if (gameStatus.innerText === ''){
             if (event.currentTarget !== event.target) {
+                counter2 ++
                 if ( event.target.innerHTML === ''){
                     if ( count === 0) {
                         count ++;
